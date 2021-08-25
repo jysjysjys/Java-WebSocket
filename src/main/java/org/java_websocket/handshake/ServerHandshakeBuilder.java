@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -30,15 +30,17 @@ package org.java_websocket.handshake;
  */
 public interface ServerHandshakeBuilder extends HandshakeBuilder, ServerHandshake {
 
-	/**
-	 * Setter for the http status code
-	 * @param status the http status code
-	 */
-	void setHttpStatus( short status );
+  /**
+   * Setter for the http status code
+   *
+   * @param status the http status code
+   */
+  void setHttpStatus(short status);
 
-	/**
-	 * Setter for the http status message
-	 * @param message the http status message
-	 */
-	void setHttpStatusMessage( String message );
+  /**
+   * Setter for the http status message
+   *
+   * @param message the http status message
+   */
+  void setHttpStatusMessage(String message);
 }

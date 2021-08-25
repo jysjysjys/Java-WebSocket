@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -27,198 +27,225 @@ package org.java_websocket;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.NotYetConnectedException;
 import java.util.Collection;
-
+import javax.net.ssl.SSLSession;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.enums.Opcode;
 import org.java_websocket.enums.ReadyState;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.framing.Framedata;
+import org.java_websocket.protocols.IProtocol;
 
 public interface WebSocket {
 
-	/**
-	 * The default port of WebSockets, as defined in the spec. If the nullary
-	 * constructor is used, DEFAULT_PORT will be the port the WebSocketServer
-	 * is binded to. Note that ports under 1024 usually require root permissions.
-	 */
-	int DEFAULT_PORT = 80;
+  /**
+   * sends the closing handshake. may be send in response to an other handshake.
+   *
+   * @param code    the closing code
+   * @param message the closing message
+   */
+  void close(int code, String message);
 
-	/**
-	 * The default wss port of WebSockets, as defined in the spec. If the nullary
-	 * constructor is used, DEFAULT_WSS_PORT will be the port the WebSocketServer
-	 * is binded to. Note that ports under 1024 usually require root permissions.
-	 */
-	int DEFAULT_WSS_PORT = 443;
+  /**
+   * sends the closing handshake. may be send in response to an other handshake.
+   *
+   * @param code the closing code
+   */
+  void close(int code);
 
-	/**
-	 * sends the closing handshake.
-	 * may be send in response to an other handshake.
-	 * @param code the closing code
-	 * @param message the closing message
-	 */
-	void close( int code, String message );
+  /**
+   * Convenience function which behaves like close(CloseFrame.NORMAL)
+   */
+  void close();
 
-	/**
-	 * sends the closing handshake.
-	 * may be send in response to an other handshake.
-	 * @param code the closing code
-	 */
-	void close( int code );
+  /**
+   * This will close the connection immediately without a proper close handshake. The code and the
+   * message therefore won't be transferred over the wire also they will be forwarded to
+   * onClose/onWebsocketClose.
+   *
+   * @param code    the closing code
+   * @param message the closing message
+   **/
+  void closeConnection(int code, String message);
 
-	/** Convenience function which behaves like close(CloseFrame.NORMAL) */
-	void close();
+  /**
+   * Send Text data to the other end.
+   *
+   * @param text the text data to send
+   * @throws WebsocketNotConnectedException websocket is not yet connected
+   */
+  void send(String text);
 
-	/**
-	 * This will close the connection immediately without a proper close handshake.
-	 * The code and the message therefore won't be transfered over the wire also they will be forwarded to onClose/onWebsocketClose.
-	 * @param code the closing code
-	 * @param message the closing message
-	 **/
-	void closeConnection( int code, String message );
+  /**
+   * Send Binary data (plain bytes) to the other end.
+   *
+   * @param bytes the binary data to send
+   * @throws IllegalArgumentException       the data is null
+   * @throws WebsocketNotConnectedException websocket is not yet connected
+   */
+  void send(ByteBuffer bytes);
 
-	/**
-	 * Send Text data to the other end.
-	 *
-	 * @param text the text data to send
-	 * @throws NotYetConnectedException websocket is not yet connected
-	 */
-	void send( String text );
+  /**
+   * Send Binary data (plain bytes) to the other end.
+   *
+   * @param bytes the byte array to send
+   * @throws IllegalArgumentException       the data is null
+   * @throws WebsocketNotConnectedException websocket is not yet connected
+   */
+  void send(byte[] bytes);
 
-	/**
-	 * Send Binary data (plain bytes) to the other end.
-	 *
-	 * @param bytes the binary data to send
-	 * @throws IllegalArgumentException the data is null
-	 * @throws NotYetConnectedException websocket is not yet connected
-	 */
-	void send( ByteBuffer bytes );
+  /**
+   * Send a frame to the other end
+   *
+   * @param framedata the frame to send to the other end
+   */
+  void sendFrame(Framedata framedata);
 
-	/**
-	 * Send Binary data (plain bytes) to the other end.
-	 *
-	 * @param bytes the byte array to send
-	 * @throws IllegalArgumentException the data is null
-	 * @throws NotYetConnectedException websocket is not yet connected
-	 */
-	void send( byte[] bytes );
+  /**
+   * Send a collection of frames to the other end
+   *
+   * @param frames the frames to send to the other end
+   */
+  void sendFrame(Collection<Framedata> frames);
 
-	/**
-	 * Send a frame to the other end
-	 * @param framedata the frame to send to the other end
-	 */
-	void sendFrame( Framedata framedata );
+  /**
+   * Send a ping to the other end
+   *
+   * @throws WebsocketNotConnectedException websocket is not yet connected
+   */
+  void sendPing();
 
-	/**
-	 * Send a collection of frames to the other end
-	 * @param frames the frames to send to the other end
-	 */
-	void sendFrame( Collection<Framedata> frames );
+  /**
+   * Allows to send continuous/fragmented frames conveniently. <br> For more into on this frame type
+   * see http://tools.ietf.org/html/rfc6455#section-5.4<br>
+   * <p>
+   * If the first frame you send is also the last then it is not a fragmented frame and will
+   * received via onMessage instead of onFragmented even though it was send by this method.
+   *
+   * @param op     This is only important for the first frame in the sequence. Opcode.TEXT,
+   *               Opcode.BINARY are allowed.
+   * @param buffer The buffer which contains the payload. It may have no bytes remaining.
+   * @param fin    true means the current frame is the last in the sequence.
+   **/
+  void sendFragmentedFrame(Opcode op, ByteBuffer buffer, boolean fin);
 
-	/**
-	 * Send a ping to the other end
-	 * @throws NotYetConnectedException websocket is not yet connected
-	 */
-	void sendPing() throws NotYetConnectedException;
+  /**
+   * Checks if the websocket has buffered data
+   *
+   * @return has the websocket buffered data
+   */
+  boolean hasBufferedData();
 
-	/**
-	 * Allows to send continuous/fragmented frames conveniently. <br>
-	 * For more into on this frame type see http://tools.ietf.org/html/rfc6455#section-5.4<br>
-	 * 
-	 * If the first frame you send is also the last then it is not a fragmented frame and will received via onMessage instead of onFragmented even though it was send by this method.
-	 * 
-	 * @param op
-	 *            This is only important for the first frame in the sequence. Opcode.TEXT, Opcode.BINARY are allowed.
-	 * @param buffer
-	 *            The buffer which contains the payload. It may have no bytes remaining.
-	 * @param fin
-	 *            true means the current frame is the last in the sequence.
-	 **/
-	void sendFragmentedFrame( Opcode op, ByteBuffer buffer, boolean fin );
+  /**
+   * Returns the address of the endpoint this socket is connected to, or {@code null} if it is
+   * unconnected.
+   *
+   * @return the remote socket address or null, if this socket is unconnected
+   */
+  InetSocketAddress getRemoteSocketAddress();
 
-	/**
-	 * Checks if the websocket has buffered data
-	 * @return has the websocket buffered data
-	 */
-	boolean hasBufferedData();
+  /**
+   * Returns the address of the endpoint this socket is bound to, or {@code null} if it is not
+   * bound.
+   *
+   * @return the local socket address or null, if this socket is not bound
+   */
+  InetSocketAddress getLocalSocketAddress();
 
-	/**
-	 * Returns the address of the endpoint this socket is connected to, or{@code null} if it is unconnected.
-	 *
-	 * @return never returns null
-	 */
-	InetSocketAddress getRemoteSocketAddress();
+  /**
+   * Is the websocket in the state OPEN
+   *
+   * @return state equals ReadyState.OPEN
+   */
+  boolean isOpen();
 
-	/**
-	 * Returns the address of the endpoint this socket is bound to.
-	 *
-	 * @return never returns null
-	 */
-	InetSocketAddress getLocalSocketAddress();
+  /**
+   * Is the websocket in the state CLOSING
+   *
+   * @return state equals ReadyState.CLOSING
+   */
+  boolean isClosing();
 
-	/**
-	 * Is the websocket in the state OPEN
-	 * @return state equals ReadyState.OPEN
-	 */
-	boolean isOpen();
+  /**
+   * Returns true when no further frames may be submitted<br> This happens before the socket
+   * connection is closed.
+   *
+   * @return true when no further frames may be submitted
+   */
+  boolean isFlushAndClose();
 
-	/**
-	 * Is the websocket in the state CLOSING
-	 * @return state equals ReadyState.CLOSING
-	 */
-	boolean isClosing();
+  /**
+   * Is the websocket in the state CLOSED
+   *
+   * @return state equals ReadyState.CLOSED
+   */
+  boolean isClosed();
 
-	/**
-	 * Returns true when no further frames may be submitted<br>
-	 * This happens before the socket connection is closed.
-	 * @return true when no further frames may be submitted
-	 */
-	boolean isFlushAndClose();
+  /**
+   * Getter for the draft
+   *
+   * @return the used draft
+   */
+  Draft getDraft();
 
-	/**
-	 * Is the websocket in the state CLOSED
-	 * @return state equals ReadyState.CLOSED
-	 */
-	boolean isClosed();
+  /**
+   * Retrieve the WebSocket 'ReadyState'. This represents the state of the connection. It returns a
+   * numerical value, as per W3C WebSockets specs.
+   *
+   * @return Returns '0 = CONNECTING', '1 = OPEN', '2 = CLOSING' or '3 = CLOSED'
+   */
+  ReadyState getReadyState();
 
-	/**
-	 * Getter for the draft
-	 * @return the used draft
-	 */
-	Draft getDraft();
+  /**
+   * Returns the HTTP Request-URI as defined by http://tools.ietf.org/html/rfc2616#section-5.1.2<br>
+   * If the opening handshake has not yet happened it will return null.
+   *
+   * @return Returns the decoded path component of this URI.
+   **/
+  String getResourceDescriptor();
 
-	/**
-	 * Retrieve the WebSocket 'ReadyState'.
-	 * This represents the state of the connection.
-	 * It returns a numerical value, as per W3C WebSockets specs.
-	 * 
-	 * @return Returns '0 = CONNECTING', '1 = OPEN', '2 = CLOSING' or '3 = CLOSED'
-	 */
-	ReadyState getReadyState();
-	
-	/**
-	 * Returns the HTTP Request-URI as defined by http://tools.ietf.org/html/rfc2616#section-5.1.2<br>
-	 * If the opening handshake has not yet happened it will return null.
-	 * @return Returns the decoded path component of this URI.
-	 **/
-	String getResourceDescriptor();
+  /**
+   * Setter for an attachment on the socket connection. The attachment may be of any type.
+   *
+   * @param attachment The object to be attached to the user
+   * @param <T>        The type of the attachment
+   * @since 1.3.7
+   **/
+  <T> void setAttachment(T attachment);
 
-	/**
-	 * Setter for an attachment on the socket connection.
-	 * The attachment may be of any type.
-	 * 
-	 * @param attachment The object to be attached to the user
-	 * @param <T> The type of the attachment
-	 * @since 1.3.7
-	 **/
-	<T> void setAttachment(T attachment);
+  /**
+   * Getter for the connection attachment.
+   *
+   * @param <T> The type of the attachment
+   * @return Returns the user attachment
+   * @since 1.3.7
+   **/
+  <T> T getAttachment();
 
-	/**
-	 * Getter for the connection attachment.
-	 *
-	 * @param <T> The type of the attachment
-	 * @return Returns the user attachment
-	 * @since 1.3.7
-	 **/
-	<T> T getAttachment();
+  /**
+   * Does this websocket use an encrypted (wss/ssl) or unencrypted (ws) connection
+   *
+   * @return true, if the websocket does use wss and therefore has a SSLSession
+   * @since 1.4.1
+   */
+  boolean hasSSLSupport();
+
+  /**
+   * Returns the ssl session of websocket, if ssl/wss is used for this instance.
+   *
+   * @return the ssl session of this websocket instance
+   * @throws IllegalArgumentException the underlying channel does not use ssl (use hasSSLSupport()
+   *                                  to check)
+   * @since 1.4.1
+   */
+  SSLSession getSSLSession() throws IllegalArgumentException;
+
+  /**
+   * Returns the used Sec-WebSocket-Protocol for this websocket connection
+   *
+   * @return the Sec-WebSocket-Protocol or null, if no draft available
+   * @throws IllegalArgumentException the underlying draft does not support a Sec-WebSocket-Protocol
+   * @since 1.5.2
+   */
+  IProtocol getProtocol();
 }

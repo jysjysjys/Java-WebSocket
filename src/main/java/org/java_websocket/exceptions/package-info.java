@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,6 +24,7 @@
  */
 
 /**
- * This package encapsulates all implementations in relation with the exceptions thrown in this lib.
+ * This package encapsulates all implementations in relation with the exceptions thrown in this
+ * lib.
  */
 package org.java_websocket.exceptions;

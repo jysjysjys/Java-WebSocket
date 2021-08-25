@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -34,18 +34,18 @@ import org.java_websocket.util.Charsetfunctions;
  */
 public class TextFrame extends DataFrame {
 
-    /**
-     * constructor which sets the opcode of this frame to text
-     */
-    public TextFrame() {
-        super(Opcode.TEXT);
-    }
+  /**
+   * constructor which sets the opcode of this frame to text
+   */
+  public TextFrame() {
+    super(Opcode.TEXT);
+  }
 
-    @Override
-    public void isValid() throws InvalidDataException {
-        super.isValid();
-        if (!Charsetfunctions.isValidUTF8( getPayloadData() )) {
-            throw new InvalidDataException(CloseFrame.NO_UTF8, "Received text is no valid utf8 string!");
-        }
+  @Override
+  public void isValid() throws InvalidDataException {
+    super.isValid();
+    if (!Charsetfunctions.isValidUTF8(getPayloadData())) {
+      throw new InvalidDataException(CloseFrame.NO_UTF8, "Received text is no valid utf8 string!");
     }
+  }
 }

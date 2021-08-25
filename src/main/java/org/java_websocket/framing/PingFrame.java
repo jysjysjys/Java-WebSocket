@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -32,10 +32,10 @@ import org.java_websocket.enums.Opcode;
  */
 public class PingFrame extends ControlFrame {
 
-	/**
-	 * constructor which sets the opcode of this frame to ping
-	 */
-	public PingFrame() {
-		super(Opcode.PING);
-	}
+  /**
+   * constructor which sets the opcode of this frame to ping
+   */
+  public PingFrame() {
+    super(Opcode.PING);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -30,37 +30,37 @@ package org.java_websocket.exceptions;
  */
 public class NotSendableException extends RuntimeException {
 
-    /**
-     * Serializable
-     */
-    private static final long serialVersionUID = -6468967874576651628L;
+  /**
+   * Serializable
+   */
+  private static final long serialVersionUID = -6468967874576651628L;
 
-    /**
-     * constructor for a NotSendableException
-     *
-     * @param s the detail message.
-     */
-    public NotSendableException(String s) {
-        super(s);
-    }
+  /**
+   * constructor for a NotSendableException
+   *
+   * @param s the detail message.
+   */
+  public NotSendableException(String s) {
+    super(s);
+  }
 
-    /**
-     * constructor for a NotSendableException
-     *
-     * @param t the throwable causing this exception.
-     */
-    public NotSendableException(Throwable t) {
-        super(t);
-    }
+  /**
+   * constructor for a NotSendableException
+   *
+   * @param t the throwable causing this exception.
+   */
+  public NotSendableException(Throwable t) {
+    super(t);
+  }
 
-    /**
-     * constructor for a NotSendableException
-     *
-     * @param s the detail message.
-     * @param t the throwable causing this exception.
-     */
-    public NotSendableException(String s, Throwable t) {
-        super(s, t);
-    }
+  /**
+   * constructor for a NotSendableException
+   *
+   * @param s the detail message.
+   * @param t the throwable causing this exception.
+   */
+  public NotSendableException(String s, Throwable t) {
+    super(s, t);
+  }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -30,16 +30,18 @@ package org.java_websocket.handshake;
  */
 public interface HandshakeBuilder extends Handshakedata {
 
-	/**
-	 * Setter for the content of the handshake
-	 * @param content the content to set
-	 */
-	void setContent( byte[] content );
+  /**
+   * Setter for the content of the handshake
+   *
+   * @param content the content to set
+   */
+  void setContent(byte[] content);
 
-	/**
-	 * Adding a specific field with a specific value
-	 * @param name the http field
-	 * @param value the value for this field
-	 */
-	void put( String name, String value );
+  /**
+   * Adding a specific field with a specific value
+   *
+   * @param name  the http field
+   * @param value the value for this field
+   */
+  void put(String name, String value);
 }

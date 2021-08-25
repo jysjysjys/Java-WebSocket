@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,24 +24,31 @@
  */
 
 package org.java_websocket.issues;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		org.java_websocket.issues.Issue609Test.class,
-		org.java_websocket.issues.Issue621Test.class,
-		org.java_websocket.issues.Issue580Test.class,
-		org.java_websocket.issues.Issue598Test.class,
-		org.java_websocket.issues.Issue256Test.class,
-		org.java_websocket.issues.Issue661Test.class,
-		org.java_websocket.issues.Issue666Test.class,
-		org.java_websocket.issues.Issue677Test.class,
-		org.java_websocket.issues.Issue732Test.class
+    org.java_websocket.issues.Issue609Test.class,
+    org.java_websocket.issues.Issue621Test.class,
+    org.java_websocket.issues.Issue580Test.class,
+    org.java_websocket.issues.Issue598Test.class,
+    org.java_websocket.issues.Issue256Test.class,
+    org.java_websocket.issues.Issue661Test.class,
+    org.java_websocket.issues.Issue666Test.class,
+    org.java_websocket.issues.Issue677Test.class,
+    org.java_websocket.issues.Issue732Test.class,
+    org.java_websocket.issues.Issue764Test.class,
+    org.java_websocket.issues.Issue765Test.class,
+    org.java_websocket.issues.Issue825Test.class,
+    org.java_websocket.issues.Issue834Test.class,
+    org.java_websocket.issues.Issue962Test.class
 })
 /**
  * Start all tests for issues
  */
 public class AllIssueTests {
+
 }

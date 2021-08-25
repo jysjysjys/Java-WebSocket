@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -31,11 +31,12 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		org.java_websocket.protocols.ProtocolTest.class,
-		org.java_websocket.protocols.ProtoclHandshakeRejectionTest.class
+    org.java_websocket.protocols.ProtocolTest.class,
+    ProtocolHandshakeRejectionTest.class
 })
 /**
  * Start all tests for protocols
  */
 public class AllProtocolTests {
+
 }

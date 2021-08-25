@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,19 +24,21 @@
  */
 
 package org.java_websocket.util;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class SocketUtil {
-	public static int getAvailablePort() throws IOException {
-		ServerSocket srv = null;
-		try {
-			srv = new ServerSocket( 0 );
-			return srv.getLocalPort();
-		} finally {
-			if( srv != null ) {
-				srv.close();
-			}
-		}
-	}
+
+  public static int getAvailablePort() throws IOException {
+    ServerSocket srv = null;
+    try {
+      srv = new ServerSocket(0);
+      return srv.getLocalPort();
+    } finally {
+      if (srv != null) {
+        srv.close();
+      }
+    }
+  }
 }

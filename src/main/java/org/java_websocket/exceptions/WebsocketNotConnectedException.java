@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -30,8 +30,8 @@ package org.java_websocket.exceptions;
  */
 public class WebsocketNotConnectedException extends RuntimeException {
 
-    /**
-     * Serializable
-     */
-    private static final long serialVersionUID = -785314021592982715L;
+  /**
+   * Serializable
+   */
+  private static final long serialVersionUID = -785314021592982715L;
 }

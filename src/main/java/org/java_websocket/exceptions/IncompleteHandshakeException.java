@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -26,45 +26,46 @@
 package org.java_websocket.exceptions;
 
 /**
- * exception which indicates that a incomplete handshake was recieved
+ * exception which indicates that a incomplete handshake was received
  */
 public class IncompleteHandshakeException extends RuntimeException {
 
-    /**
-     * Serializable
-     */
-    private static final long serialVersionUID = 7906596804233893092L;
+  /**
+   * Serializable
+   */
+  private static final long serialVersionUID = 7906596804233893092L;
 
-    /**
-     * attribut which size of handshake would have been prefered
-     */
-    private int preferedSize;
+  /**
+   * attribute which size of handshake would have been preferred
+   */
+  private final int preferredSize;
 
-    /**
-     * constructor for a IncompleteHandshakeException
-     * <p>
-     * @param preferedSize the prefered size
-     */
-    public IncompleteHandshakeException(int preferedSize) {
-        this.preferedSize = preferedSize;
-    }
+  /**
+   * constructor for a IncompleteHandshakeException
+   * <p>
+   *
+   * @param preferredSize the preferred size
+   */
+  public IncompleteHandshakeException(int preferredSize) {
+    this.preferredSize = preferredSize;
+  }
 
-    /**
-     * constructor for a IncompleteHandshakeException
-     * <p>
-     * preferedSize will be 0
-     */
-    public IncompleteHandshakeException() {
-        this.preferedSize = 0;
-    }
+  /**
+   * constructor for a IncompleteHandshakeException
+   * <p>
+   * preferredSize will be 0
+   */
+  public IncompleteHandshakeException() {
+    this.preferredSize = 0;
+  }
 
-    /**
-     * Getter preferedSize
-     *
-     * @return the preferedSize
-     */
-    public int getPreferedSize() {
-        return preferedSize;
-    }
+  /**
+   * Getter preferredSize
+   *
+   * @return the preferredSize
+   */
+  public int getPreferredSize() {
+    return preferredSize;
+  }
 
 }

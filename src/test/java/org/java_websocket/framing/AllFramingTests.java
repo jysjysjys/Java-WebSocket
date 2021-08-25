@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -32,16 +32,17 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        org.java_websocket.framing.BinaryFrameTest.class,
-        org.java_websocket.framing.PingFrameTest.class,
-        org.java_websocket.framing.PongFrameTest.class,
-        org.java_websocket.framing.CloseFrameTest.class,
-        org.java_websocket.framing.TextFrameTest.class,
-        org.java_websocket.framing.ContinuousFrameTest.class,
-        org.java_websocket.framing.FramedataImpl1Test.class
+    org.java_websocket.framing.BinaryFrameTest.class,
+    org.java_websocket.framing.PingFrameTest.class,
+    org.java_websocket.framing.PongFrameTest.class,
+    org.java_websocket.framing.CloseFrameTest.class,
+    org.java_websocket.framing.TextFrameTest.class,
+    org.java_websocket.framing.ContinuousFrameTest.class,
+    org.java_websocket.framing.FramedataImpl1Test.class
 })
 /**
  * Start all tests for frames
  */
 public class AllFramingTests {
+
 }

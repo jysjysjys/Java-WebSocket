@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,16 +24,19 @@
  */
 
 package org.java_websocket.extensions;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		org.java_websocket.extensions.DefaultExtensionTest.class
+    org.java_websocket.extensions.DefaultExtensionTest.class,
+    org.java_websocket.extensions.CompressionExtensionTest.class
 })
 /**
- * Start all tests for extensuins
+ * Start all tests for extensions
  */
 public class AllExtensionTests {
+
 }

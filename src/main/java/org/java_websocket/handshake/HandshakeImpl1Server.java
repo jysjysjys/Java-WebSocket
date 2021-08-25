@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -30,33 +30,33 @@ package org.java_websocket.handshake;
  */
 public class HandshakeImpl1Server extends HandshakedataImpl1 implements ServerHandshakeBuilder {
 
-	/**
-	 * Attribute for the http status
-	 */
-	private short httpstatus;
+  /**
+   * Attribute for the http status
+   */
+  private short httpstatus;
 
-	/**
-	 * Attribute for the http status message
-	 */
-	private String httpstatusmessage;
+  /**
+   * Attribute for the http status message
+   */
+  private String httpstatusmessage;
 
-	@Override
-	public String getHttpStatusMessage() {
-		return httpstatusmessage;
-	}
+  @Override
+  public String getHttpStatusMessage() {
+    return httpstatusmessage;
+  }
 
-	@Override
-	public short getHttpStatus() {
-		return httpstatus;
-	}
+  @Override
+  public short getHttpStatus() {
+    return httpstatus;
+  }
 
-	@Override
-	public void setHttpStatusMessage( String message ) {
-		this.httpstatusmessage = message;
-	}
+  @Override
+  public void setHttpStatusMessage(String message) {
+    this.httpstatusmessage = message;
+  }
 
-	@Override
-	public void setHttpStatus( short status ) {
-		httpstatus = status;
-	}
+  @Override
+  public void setHttpStatus(short status) {
+    httpstatus = status;
+  }
 }

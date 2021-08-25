@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -33,17 +33,17 @@ import org.java_websocket.exceptions.InvalidDataException;
  */
 public abstract class DataFrame extends FramedataImpl1 {
 
-	/**
-	 * Class to represent a data frame
-	 * @param opcode the opcode to use
-	 */
-	public DataFrame(Opcode opcode) {
-		super(opcode);
-	}
+  /**
+   * Class to represent a data frame
+   *
+   * @param opcode the opcode to use
+   */
+  public DataFrame(Opcode opcode) {
+    super(opcode);
+  }
 
-	@Override
-	public void isValid() throws InvalidDataException
-	{
-      //Nothing specific to check
-	}
+  @Override
+  public void isValid() throws InvalidDataException {
+    //Nothing specific to check
+  }
 }

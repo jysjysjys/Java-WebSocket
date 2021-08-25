@@ -8,47 +8,56 @@ Java WebSockets
 This repository contains a barebones WebSocket server and client implementation
 written in 100% Java. The underlying classes are implemented `java.nio`, which allows for a
 non-blocking event-driven model (similar to the
-[WebSocket API](http://dev.w3.org/html5/websockets/) for web browsers).
+[WebSocket API](https://html.spec.whatwg.org/multipage/web-sockets.html) for web browsers).
 
 Implemented WebSocket protocol versions are:
 
  * [RFC 6455](http://tools.ietf.org/html/rfc6455)
+ * [RFC 7692](http://tools.ietf.org/html/rfc7692)
 
-[Here](https://github.com/TooTallNate/Java-WebSocket/wiki/Drafts) some more details about protocol versions/drafts. 
+[Here](https://github.com/TooTallNate/Java-WebSocket/wiki/Drafts) some more details about protocol versions/drafts.
+[PerMessageDeflateExample](https://github.com/TooTallNate/Java-WebSocket/wiki/PerMessageDeflateExample) enable the extension with reference to both a server and client example.
 
 
-## Build
-You can build using Ant, Maven, Gradle or Leiningen but there is nothing against just putting the source path ```src/main/java ``` on your applications buildpath.
+## Getting Started
 
-### Ant
+### Dependency management tools
 
-``` bash
-ant 
-```
+Below is a brief guide to using dependency management tools like maven or gradle.
 
-will create the javadoc of this library at ```doc/``` and build the library itself: ```dist/java_websocket.jar```
-
-The ant targets are: ```compile```, ```jar```, ```doc``` and ```clean```
-
-### Maven
+#### Maven
 To use maven add this dependency to your pom.xml:
 ```xml
 <dependency>
   <groupId>org.java-websocket</groupId>
   <artifactId>Java-WebSocket</artifactId>
-  <version>1.3.9</version>
+  <version>1.5.1</version>
 </dependency>
 ```
 
-### Gradle
-To use Gradle add the maven central repository to your repositories list :
+#### Gradle
+To use Gradle add the maven central repository to your repositories list:
 ```xml
 mavenCentral()
 ```
 Then you can just add the latest version to your build.
 ```xml
-compile "org.java-websocket:Java-WebSocket:1.3.9"
+compile "org.java-websocket:Java-WebSocket:1.5.1"
 ```
+
+#### Logging
+
+This library uses [SLF4J](https://www.slf4j.org/) for logging and does not ship with any default logging implementation.
+
+Exceptions are using the log level `ERROR` and debug logging will be done with log level `TRACE`.
+
+Feel free to use whichever logging framework you desire and use the corresponding [binding](https://mvnrepository.com/artifact/org.slf4j) in your dependency management.
+
+If you want to get started, take a look at the SimpleLogger [example](https://github.com/TooTallNate/Java-WebSocket/wiki/SimpleLogger-example).
+
+### Standalone jar
+
+If you do not use any dependency management tool, you can find the latest standalone jar [here](https://github.com/TooTallNate/Java-WebSocket/releases/latest).
 
 Writing your own WebSocket Server
 ---------------------------------
@@ -67,14 +76,14 @@ Writing your own WebSocket Client
 The `org.java_websocket.client.WebSocketClient` abstract class can connect to
 valid WebSocket servers. The constructor expects a valid `ws://` URI to
 connect to. Important events `onOpen`, `onClose`, `onMessage` and `onError`
-get fired throughout the life of the WebSocketClient, and must be implemented 
+get fired throughout the life of the WebSocketClient, and must be implemented
 in **your** subclass.
 
 An example for a WebSocketClient can be found in both the [wiki](https://github.com/TooTallNate/Java-WebSocket/wiki#client-example) and the [example](https://github.com/TooTallNate/Java-WebSocket/tree/master/src/main/example) folder.
 
 Examples
 -------------------
- 
+
 You can find a lot of examples [here](https://github.com/TooTallNate/Java-WebSocket/tree/master/src/main/example).
 
 WSS Support
@@ -85,7 +94,7 @@ To see how to use wss please take a look at the examples.<br>
 If you do not have a valid **certificate** in place then you will have to create a self signed one.
 Browsers will simply refuse the connection in case of a bad certificate and will not ask the user to accept it.
 So the first step will be to make a browser to accept your self signed certificate. ( https://bugzilla.mozilla.org/show_bug.cgi?id=594502 ).<br>
-If the websocket server url is `wss://localhost:8000` visit the url `https://localhost:8000` with your browser. The browser will recognize the handshake and allow you to accept the certificate. This technique is also demonstrated in this [video](http://www.youtube.com/watch?v=F8lBdfAZPkU).
+If the websocket server url is `wss://localhost:8000` visit the url `https://localhost:8000` with your browser. The browser will recognize the handshake and allow you to accept the certificate.
 
 The vm option `-Djavax.net.debug=all` can help to find out if there is a problem with the certificate.
 
@@ -93,8 +102,7 @@ It is currently not possible to accept ws and wss connections at the same time v
 
 For some reason Firefox does not allow multiple connections to the same wss server if the server uses a different port than the default port (443).
 
-
-If you want to use `wss` on the android platfrom you should take a look at [this](http://blog.antoine.li/2010/10/22/android-trusting-ssl-certificates/).
+If you want to use `wss` on the android platform you should take a look at [this](https://github.com/TooTallNate/Java-WebSocket/wiki/FAQ:-Secure-WebSockets#wss-on-android).
 
 I ( @Davidiusdadi ) would be glad if you would give some feedback whether wss is working fine for you or not.
 
@@ -103,38 +111,9 @@ Minimum Required JDK
 
 `Java-WebSocket` is known to work with:
 
- * Java 1.6 and higher
- * Android 4.0 and higher
+ * Java 1.7 and higher
 
 Other JRE implementations may work as well, but haven't been tested.
-
-
-Testing in Android Emulator
----------------------------
-
-Please note Android Emulator has issues using `IPv6 addresses`. Executing any
-socket related code (like this library) inside it will address an error
-
-``` bash
-java.net.SocketException: Bad address family
-```
-
-You have to manually disable `IPv6` by calling
-
-``` java
-java.lang.System.setProperty("java.net.preferIPv6Addresses", "false");
-java.lang.System.setProperty("java.net.preferIPv4Stack", "true");
-```
-
-somewhere in your project, before instantiating the `WebSocketClient` class. 
-You can check if you are currently testing in the Android Emulator like this
-
-``` java
-if ("google_sdk".equals( Build.PRODUCT )) {
-  // ... disable IPv6
-}
-```
-
 
 License
 -------

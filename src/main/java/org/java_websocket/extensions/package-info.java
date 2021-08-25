@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,6 +24,7 @@
  */
 
 /**
- * This package encapsulates all interfaces and implementations in relation with the WebSocket Sec-WebSocket-Extensions.
+ * This package encapsulates all interfaces and implementations in relation with the WebSocket
+ * Sec-WebSocket-Extensions.
  */
 package org.java_websocket.extensions;

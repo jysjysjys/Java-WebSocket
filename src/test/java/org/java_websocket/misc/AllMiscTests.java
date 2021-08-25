@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2018 Nathan Rajlich
+ * Copyright (c) 2010-2020 Nathan Rajlich
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
@@ -24,16 +24,18 @@
  */
 
 package org.java_websocket.misc;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		org.java_websocket.misc.OpeningHandshakeRejectionTest.class
+    org.java_websocket.misc.OpeningHandshakeRejectionTest.class
 })
 /**
  * Start all tests for mics
  */
 public class AllMiscTests {
+
 }
