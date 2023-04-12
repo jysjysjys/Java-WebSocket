@@ -224,10 +224,11 @@ public class WebSocketImpl implements WebSocket {
    */
   public void decode(ByteBuffer socketBuffer) {
     assert (socketBuffer.hasRemaining());
-    log.trace("process({}): ({})", socketBuffer.remaining(),
-        (socketBuffer.remaining() > 1000 ? "too big to display"
-            : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())));
-
+    if (log.isTraceEnabled()) {
+      log.trace("process({}): ({})", socketBuffer.remaining(),
+              (socketBuffer.remaining() > 1000 ? "too big to display"
+                      : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())));
+    }
     if (readyState != ReadyState.NOT_YET_CONNECTED) {
       if (readyState == ReadyState.OPEN) {
         decodeFrames(socketBuffer);
@@ -410,6 +411,15 @@ public class WebSocketImpl implements WebSocket {
       log.error("Closing due to invalid data in frame", e);
       wsl.onWebsocketError(this, e);
       close(e);
+    } catch (VirtualMachineError | ThreadDeath | LinkageError e) {
+      log.error("Got fatal error during frame processing");
+      throw e;
+    } catch (Error e) {
+      log.error("Closing web socket due to an error during frame processing");
+      Exception exception = new Exception(e);
+      wsl.onWebsocketError(this, exception);
+      String errorMessage = "Got error " + e.getClass().getName();
+      close(CloseFrame.UNEXPECTED_CONDITION, errorMessage);
     }
   }
 
